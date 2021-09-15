@@ -7,4 +7,6 @@
     <string name="mhd">MHD</string>
     <string name="normal">NORMAL</string>
     <string name="_360_tage">360 TAGE</string>
+    <string name="PLUS">+</string>
+    <string name="Minus">-</string>
 </resources>

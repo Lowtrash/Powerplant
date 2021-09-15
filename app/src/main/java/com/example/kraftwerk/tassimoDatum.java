@@ -68,9 +68,9 @@ public class tassimoDatum {
     private static String schicht() {
         int help = lot().get(HOUR_OF_DAY);
 
-        if (help >= 0 && help < 8) {
+        if (help < 8) {
             return "1";
-        } else if (help >= 8 && help < 16) {
+        } else if ( help < 16) {
             return "2";
         } else {
             return "3";
