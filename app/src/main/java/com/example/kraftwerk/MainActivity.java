@@ -3,6 +3,7 @@ package com.example.kraftwerk;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     int linie = 22;
     int index = 0;
     int findex = 0;
-
+    private KraftWerkDbHelper dbdates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         zeigelot();
         dialog();
         format();
+        dbdates = new KraftWerkDbHelper(MainActivity.this);
+        dbdates.erstelleFirstTable();
     }
 
 
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         String message = tassimoDatum.mhdDat(tage,format);
         TextView textView = findViewById(R.id.textView3);
         textView.setText(message);
+        textView.setMovementMethod(new ScrollingMovementMethod());
+        textView.setHorizontallyScrolling(true);
     }
     public void zeigelot() {
         String message = "LXB"+linie+tassimoDatum.lotDat();

@@ -47,7 +47,7 @@ public class tassimoDatum {
             case "PRO2":
 
                 help =  "B " +stag(mhd.get(DATE)) + " " + smonat(monat + 1) + " " + mhd.get(YEAR)
-                        + "/" + stag(ptag) + " " + smonat(pmonat + 1) + " " + pjahr ;
+                        + " / " + stag(ptag) + " " + smonat(pmonat + 1) + " " + pjahr ;
 
                 break;
         }
