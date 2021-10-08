@@ -52,4 +52,16 @@ public class KraftWerkDbHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    public void updateData(int lineNumber, int addBestbefore, String formatStyle, int anzahldisc){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KraftWerkdb.BestBfEntry.LINE_COL, lineNumber);
+        values.put(KraftWerkdb.BestBfEntry.MHD_COL, addBestbefore);
+        values.put(KraftWerkdb.BestBfEntry.FORMAT_COL, formatStyle);
+        values.put(KraftWerkdb.BestBfEntry.SDISC_COL, anzahldisc);
+        values.put(KraftWerkdb.BestBfEntry.FLAG_COL, 1);
+
+        db.update(KraftWerkdb.BestBfEntry.TABLE_NAME, values, "line=?", new String[]{""+lineNumber});
+        db.close();
+    }
 }

@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     int linie = 22;
     int index = 0;
     int findex = 0;
+    int anzdisc = 8;
+    int tindex =0;
     private KraftWerkDbHelper dbdates;
 
     @Override
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         zeigelot();
         dialog();
         format();
+        zeigesdisc();
         dbdates = new KraftWerkDbHelper(MainActivity.this);
         dbdates.erstelleFirstTable();
     }
@@ -36,8 +39,14 @@ public class MainActivity extends AppCompatActivity {
         textView.setMovementMethod(new ScrollingMovementMethod());
         textView.setHorizontallyScrolling(true);
     }
+    public void zeigesdisc(){
+        String message = anzdisc+" "+getString(R.string.t_disc_fs);
+        TextView textView = findViewById(R.id.textView8);
+        textView.setText(message);
+    }
     public void zeigelot() {
-        String message = "LXB"+linie+tassimoDatum.lotDat();
+        //String message = "LXB"+linie+tassimoDatum.lotDat();
+        String message = "LXB"+linie+tassimoDatum.lotDat()+" "+tassimoDialog.disksigndialog(tindex);
         TextView textView = findViewById(R.id.textView4);
         textView.setText(message);
     }
@@ -100,5 +109,29 @@ public class MainActivity extends AppCompatActivity {
             linie = 29;
         zeigelot();
         linie();
+    }
+    public void adddisk(View view){
+        if (tindex < 3)
+            tindex++;
+        else
+            tindex = 0;
+        anzdisc = tassimoDialog.discdialog(tindex);
+        zeigesdisc();
+        zeigelot();
+    }
+    public void subdisk(View view) {
+        if (tindex > 0)
+            tindex--;
+        else
+            tindex = 3;
+        anzdisc = tassimoDialog.discdialog(tindex);
+        zeigesdisc();
+        zeigelot();
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbdates.updateData(linie,tage,format,anzdisc);
+        super.onDestroy();
     }
 }

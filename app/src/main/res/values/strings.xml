@@ -7,4 +7,7 @@
     <string name="_360_tage">360 TAGE</string>
     <string name="PLUS">+</string>
     <string name="Minus">-</string>
+    <string name="t_disc_fs">T Disc / FS</string>
+    <string name="u2191">↑</string>
+    <string name="u2193">↓</string>
 </resources>
