@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     String format = "NORMAL";
     int tage = 330;
@@ -17,17 +20,22 @@ public class MainActivity extends AppCompatActivity {
     int anzdisc = 8;
     int tindex =0;
     private KraftWerkDbHelper dbdates;
+    List neue = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbdates = new KraftWerkDbHelper(MainActivity.this);
+
         zeigemhd();
         zeigelot();
         dialog();
         format();
         zeigesdisc();
-        dbdates = new KraftWerkDbHelper(MainActivity.this);
+        //dbdates = new KraftWerkDbHelper(MainActivity.this);
+        //adlastdata();
         dbdates.erstelleFirstTable();
     }
 
@@ -53,22 +61,23 @@ public class MainActivity extends AppCompatActivity {
     public void dialog() {
 
         int wahl = tassimoDialog.mhdialog(index);
-
+        String message =  ""+wahl+" Tage";
         TextView textview = findViewById(R.id.textView2);
-        textview.setText(""+wahl+" Tage");
+        textview.setText(message);
 
     }
     public void format() {
 
         String wahl = tassimoDialog.formatdialog(findex);
-
+        String message =  ""+wahl;
         TextView textview = findViewById(R.id.textView);
-        textview.setText(""+wahl);
+        textview.setText(message);
     }
 
     public void linie() {
+        String message =  ""+linie;
         TextView textview = findViewById(R.id.textView11);
-        textview.setText(""+linie);
+        textview.setText(message);
     }
     public void changeMhd(View view) {
 
@@ -128,10 +137,50 @@ public class MainActivity extends AppCompatActivity {
         zeigesdisc();
         zeigelot();
     }
+    public void loadlastdata(View view){
+        //neue = new ArrayList();
+        neue = dbdates.setData(linie);
+        tage= (int) neue.get(1);
+        format= neue.get(2).toString();
+        anzdisc = (int) neue.get(3);
+        TextView textview = findViewById(R.id.textView2);
+        textview.setText(""+tage+" Tage");
+        index = checkIndex(tage);
+        TextView textview1 = findViewById(R.id.textView);
+        textview1.setText(""+format);
+        findex = checkFindex(format);
+        TextView textview2 = findViewById(R.id.textView8);
+        textview2.setText(""+anzdisc+getString(R.string.t_disc_fs));
+        tindex = checkTindex(anzdisc);
+        zeigemhd();
+        zeigelot();
+    }
+    public int checkIndex(int t){
+        int help = 0;
+        while (t!=tassimoDialog.mhdialog(help)){
+            help++;
+        }
 
+        return help;
+    }
+    public int checkFindex(String s){
+        int help=0;
+        while(!s.equals(tassimoDialog.formatdialog(help))){
+            help++;
+        }
+        return help;
+    }
+    public int checkTindex(int t){
+        int help = 0;
+        while (t!=tassimoDialog.discdialog(help)){
+            help++;
+        }
+
+        return help;
+    }
     @Override
     protected void onDestroy() {
-        dbdates.updateData(linie,tage,format,anzdisc);
+        dbdates.updateData(linie,tage,format,anzdisc,0);
         super.onDestroy();
     }
 }

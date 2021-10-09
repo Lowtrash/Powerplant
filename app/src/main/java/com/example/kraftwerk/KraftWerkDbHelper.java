@@ -2,10 +2,15 @@ package com.example.kraftwerk;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KraftWerkDbHelper extends SQLiteOpenHelper {
 
@@ -23,7 +28,8 @@ public class KraftWerkDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + KraftWerkdb.BestBfEntry.TABLE_NAME);
+        onCreate(db);
     }
     public void erstelleFirstTable() {
 
@@ -52,16 +58,73 @@ public class KraftWerkDbHelper extends SQLiteOpenHelper {
 
         db.close();
     }
-    public void updateData(int lineNumber, int addBestbefore, String formatStyle, int anzahldisc){
+    public void updateData(int lineNumber, int addBestbefore, String formatStyle, int anzahldisc,int f){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KraftWerkdb.BestBfEntry.LINE_COL, lineNumber);
         values.put(KraftWerkdb.BestBfEntry.MHD_COL, addBestbefore);
         values.put(KraftWerkdb.BestBfEntry.FORMAT_COL, formatStyle);
         values.put(KraftWerkdb.BestBfEntry.SDISC_COL, anzahldisc);
-        values.put(KraftWerkdb.BestBfEntry.FLAG_COL, 1);
+        values.put(KraftWerkdb.BestBfEntry.FLAG_COL, f);
 
         db.update(KraftWerkdb.BestBfEntry.TABLE_NAME, values, "line=?", new String[]{""+lineNumber});
         db.close();
     }
+    public void changeFlag(int flag) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KraftWerkdb.BestBfEntry.FLAG_COL, 0);
+
+        db.update(KraftWerkdb.BestBfEntry.TABLE_NAME, values, "lastactivity=?", new String[]{""+flag});
+        db.close();
+    }
+    public List<Serializable> setData(int linie) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        String selection = KraftWerkdb.BestBfEntry.LINE_COL + " = ?" ;
+        String[] selectionArgs = {""+linie};
+
+        Cursor cursor = db.query(
+                KraftWerkdb.BestBfEntry.TABLE_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null,            // The sort order
+                null
+
+        );
+
+        List<java.io.Serializable> feld = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            int linehelp = cursor.getColumnIndex(KraftWerkdb.BestBfEntry.LINE_COL);
+            feld.add(cursor.getInt(linehelp));
+            int mhdhelp = cursor.getColumnIndex(KraftWerkdb.BestBfEntry.MHD_COL);
+            feld.add(cursor.getInt(mhdhelp));
+            int formathelp = cursor.getColumnIndex(KraftWerkdb.BestBfEntry.FORMAT_COL);
+            feld.add(cursor.getString(formathelp));
+            int anzdischelp = cursor.getColumnIndex(KraftWerkdb.BestBfEntry.SDISC_COL);
+            feld.add(cursor.getInt(anzdischelp));
+            int flaghelp = cursor.getColumnIndex(KraftWerkdb.BestBfEntry.FLAG_COL);
+            if (flaghelp ==1)
+                changeFlag(flaghelp);
+
+        }
+        else
+             erstelleFirstTable();
+        cursor.close();
+        db.close();
+        return feld;
+
+    }
+
+    public void delete(){
+        SQLiteDatabase db = this. getWritableDatabase();
+        db. execSQL(KraftWerkdb.BestBfEntry.TABLE_NAME);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+    }
+
 }
