@@ -14,7 +14,7 @@ import java.util.List;
 
 public class KraftWerkDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Kraftwerk.db";
 
 
@@ -44,7 +44,7 @@ public class KraftWerkDbHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(KraftWerkdb.BestBfEntry._ID, i);
             values.put(KraftWerkdb.BestBfEntry.LINE_COL, help);
-            values.put(KraftWerkdb.BestBfEntry.MHD_COL, 330);
+            values.put(KraftWerkdb.BestBfEntry.MHD_COL, 300);
             values.put(KraftWerkdb.BestBfEntry.FORMAT_COL, "NORMAL");
             values.put(KraftWerkdb.BestBfEntry.SDISC_COL, 8);
             values.put(KraftWerkdb.BestBfEntry.FLAG_COL, 0);

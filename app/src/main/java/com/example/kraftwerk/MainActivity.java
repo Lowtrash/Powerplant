@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     String format = "NORMAL";
-    int tage = 330;
+    int tage = 300;
     int linie = 22;
     int index = 0;
     int findex = 0;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void changeMhd(View view) {
 
-        if (index < 3)
+        if (index < 4)
             index++;
         else
             index = 0;
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         textview1.setText(""+format);
         findex = checkFindex(format);
         TextView textview2 = findViewById(R.id.textView8);
-        textview2.setText(""+anzdisc+getString(R.string.t_disc_fs));
+        textview2.setText(""+anzdisc+" "+getString(R.string.t_disc_fs));
         tindex = checkTindex(anzdisc);
         zeigemhd();
         zeigelot();

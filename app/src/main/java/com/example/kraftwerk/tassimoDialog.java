@@ -4,7 +4,7 @@ public class tassimoDialog {
 
     static int mhdialog(int i) {
 
-        final CharSequence[] items = {"330", "360", "420", "540"};
+        final CharSequence[] items = {"300", "330", "360", "420", "540"};
 
         String help = items[i].toString();
         return Integer.parseInt(help);
