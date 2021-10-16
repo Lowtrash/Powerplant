@@ -124,7 +124,6 @@ public class KraftWerkDbHelper extends SQLiteOpenHelper {
     public void delete(){
         SQLiteDatabase db = this. getWritableDatabase();
         db. execSQL(KraftWerkdb.BestBfEntry.TABLE_NAME);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
 }
