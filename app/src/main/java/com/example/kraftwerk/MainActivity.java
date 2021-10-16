@@ -7,6 +7,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,16 @@ public class MainActivity extends AppCompatActivity {
         dialog();
         format();
         zeigesdisc();
-        //dbdates = new KraftWerkDbHelper(MainActivity.this);
-        //adlastdata();
         dbdates.erstelleFirstTable();
+        TextView longbutton = (TextView) findViewById(R.id.textView11);
+        longbutton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                dbdates.updateData(linie,tage,format,anzdisc,0);
+                Toast.makeText(getApplicationContext(), "Werte gespeichert", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
 
@@ -53,13 +61,11 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(message);
     }
     public void zeigelot() {
-        //String message = "LXB"+linie+tassimoDatum.lotDat();
         String message = "LXB"+linie+tassimoDatum.lotDat()+" "+tassimoDialog.disksigndialog(tindex);
         TextView textView = findViewById(R.id.textView4);
         textView.setText(message);
     }
     public void dialog() {
-
         int wahl = tassimoDialog.mhdialog(index);
         String message =  ""+wahl+" Tage";
         TextView textview = findViewById(R.id.textView2);
@@ -67,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void format() {
-
         String wahl = tassimoDialog.formatdialog(findex);
         String message =  ""+wahl;
         TextView textview = findViewById(R.id.textView);
@@ -98,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         format = tassimoDialog.formatdialog(findex);
         format();
         zeigemhd();
-        //format();
     }
 
     public void addLine(View view){
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         else
             linie = 22;
-        zeigelot();
+        loadlastdata();
         linie();
     }
     public void subLine(View view) {
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         else
             linie = 29;
-        zeigelot();
+        loadlastdata();
         linie();
     }
     public void adddisk(View view){
@@ -137,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
         zeigesdisc();
         zeigelot();
     }
-    public void loadlastdata(View view){
-        //neue = new ArrayList();
+    public void loadlastdata(){
         neue = dbdates.setData(linie);
         tage= (int) neue.get(1);
         format= neue.get(2).toString();

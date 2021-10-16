@@ -2,7 +2,7 @@ package com.example.kraftwerk;
 
 public class tassimoDialog {
 
-    static int mhdialog(int i) {
+    public static int mhdialog(int i) {
 
         final CharSequence[] items = {"300", "330", "360", "420", "540"};
 
