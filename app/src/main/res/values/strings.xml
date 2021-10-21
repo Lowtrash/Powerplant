@@ -10,4 +10,5 @@
     <string name="t_disc_fs">T Disc / FS</string>
     <string name="u2191">↑</string>
     <string name="u2193">↓</string>
+    <string name="toast_message1">Werte gespeichert</string>
 </resources>
