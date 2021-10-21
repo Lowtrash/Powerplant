@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -41,13 +43,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 dbdates.updateData(linie,tage,format,anzdisc,0);
-                Toast.makeText(getApplicationContext(), "Werte gespeichert", Toast.LENGTH_SHORT).show();
+                showToast();
+                //Toast.makeText(getApplicationContext(), "Werte gespeichert", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
     }
 
+    void showToast() {
 
+        Toast toast = new Toast(MainActivity.this);
+
+        View view = LayoutInflater.from(MainActivity.this)
+                .inflate(R.layout.customtoast_layout, null);
+
+        TextView tvMessage = view.findViewById(R.id.tvMessage);
+        tvMessage.setText("Werte gespeichert");
+        toast.setGravity(Gravity.CENTER,0,375);
+        toast.setView(view);
+        toast.show();
+
+    }
     public void zeigemhd() {
         String message = tassimoDatum.mhdDat(tage,format);
         TextView textView = findViewById(R.id.textView3);
